@@ -1,0 +1,18 @@
+/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/persist/Desktop/Code/3Dgraph -B /Users/persist/Desktop/Code/3Dgraph/cmake-build-debug
+-- Found SFML 2.6.1 in /opt/homebrew/lib/cmake/SFML
+-- Configuring done (0.3s)
+CMake Error at CMakeLists.txt:10 (add_executable):
+  Cannot find source file:
+
+    scale.h
+
+  Tried extensions .c .C .c++ .cc .cpp .cxx .cu .mpp .m .M .mm .ixx .cppm
+  .ccm .cxxm .c++m .h .hh .h++ .hm .hpp .hxx .in .txx .f .F .for .f77 .f90
+  .f95 .f03 .hip .ispc
+
+
+CMake Error at CMakeLists.txt:10 (add_executable):
+  No SOURCES given to target: Picard_iteration
+
+
+CMake Generate step failed.  Build files cannot be regenerated correctly.

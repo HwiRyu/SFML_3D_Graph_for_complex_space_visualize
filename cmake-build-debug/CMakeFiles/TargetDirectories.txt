@@ -1,0 +1,3 @@
+/Users/persist/Desktop/Code/3Dgraph/cmake-build-debug/CMakeFiles/3Dgraph.dir
+/Users/persist/Desktop/Code/3Dgraph/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/persist/Desktop/Code/3Dgraph/cmake-build-debug/CMakeFiles/rebuild_cache.dir
