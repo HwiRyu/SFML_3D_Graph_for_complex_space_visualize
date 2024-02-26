@@ -259,7 +259,7 @@ int main() {
 //                axes.append(sf::Vertex(sf::Vector2f(3,i), sf::Color::Black));
 //            }
 //
-//        window.draw(axes);
+//        window.draw(axes); 2
 
         sf::VertexArray axe1(sf::Lines);
         axe1.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
