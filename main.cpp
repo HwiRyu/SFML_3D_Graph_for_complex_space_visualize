@@ -56,9 +56,10 @@ int main() {
     double t_value = 0;
     double move_UD = 0;
     double move_RL = 0;
-    double x_angle = 0;
-    double y_angle = 0;
+    double x_angle = 20;
+    double y_angle = 5;
     const double pi = 3.14159265358979;
+    bool complex_type = true;
 
     sf::Clock clock;
     sf::Clock clock_t;
@@ -92,10 +93,10 @@ int main() {
                         y_angle += 1;
                         break;
                     case sf::Keyboard::Left:
-                        x_angle -= 1;
+                        x_angle += 1;
                         break;
                     case sf::Keyboard::Right:
-                        x_angle += 1;
+                        x_angle -= 1;
                         break;
                     case sf::Keyboard::W:
                         if (!tracer)
@@ -104,6 +105,12 @@ int main() {
                     case sf::Keyboard::S:
                         if (!tracer)
                             size -= 5;
+                        break;
+                    case sf::Keyboard::I:
+                        if (complex_type == true)
+                            complex_type = false;
+                        else
+                            complex_type = true;
                         break;
 //                    case sf::Keyboard::T:
 //                        tracer = !tracer;  // Toggle tracer when 'T' is pressed
@@ -231,7 +238,7 @@ int main() {
 //            window.draw(tracer_on);
 //        }
 
-        origin_function_one(window, origin, size, one_variable_function, x_start, x_end, x_angle, y_angle);
+        origin_function_one(window, origin, size, one_variable_function, -4, 4, x_angle, y_angle, complex_type);
 //
 //        sf::VertexArray axes(sf::Lines);
 //
@@ -261,29 +268,32 @@ int main() {
 //
 //        window.draw(axes); 2
 
+        double psy = pi * y_angle / 120;
+        double theta = pi * x_angle / 120;
+
         sf::VertexArray axe1(sf::Lines);
-        axe1.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
-        axe1.append(sf::Vertex(sf::Vector2f(400 * std::sin(pi * x_angle / 50) , 400 * (std::sin(pi * y_angle / 50)) * (std::cos(pi * x_angle / 50))), sf::Color::Black));
+        axe1.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Red));
+        axe1.append(sf::Vertex(sf::Vector2f(400 * std::sin(theta) , -400 * (std::sin(psy)) * (std::cos(theta))), sf::Color::Red));
 
         sf::VertexArray axe2(sf::Lines);
         axe2.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
-        axe2.append(sf::Vertex(sf::Vector2f(400 * std::cos(pi * x_angle / 50) , 400 * (std::sin(pi * y_angle / 50)) * (std::sin(-pi * x_angle / 50))), sf::Color::Black));
+        axe2.append(sf::Vertex(sf::Vector2f(400 * std::cos(theta) , -400 * (std::sin(psy)) * (-std::sin(theta))), sf::Color::Black));
 
         sf::VertexArray axe3(sf::Lines);
         axe3.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
-        axe3.append(sf::Vertex(sf::Vector2f(-400 * std::sin(pi * x_angle / 50), -400 * (std::sin(pi * y_angle / 50)) * (std::cos(pi * x_angle / 50))), sf::Color::Red));
+        axe3.append(sf::Vertex(sf::Vector2f(-400 * std::sin(theta), 400 * (std::sin(psy)) * (std::cos(theta))), sf::Color::Black));
 
         sf::VertexArray axe4(sf::Lines);
         axe4.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
-        axe4.append(sf::Vertex(sf::Vector2f(-400 * std::cos(pi * x_angle / 50) , -400 * (std::sin(pi * y_angle / 50)) * (std::sin(-pi * x_angle / 50))), sf::Color::Black));
+        axe4.append(sf::Vertex(sf::Vector2f(-400 * std::cos(theta) , 400 * (std::sin(psy)) * (-std::sin(theta))), sf::Color::Black));
 
         sf::VertexArray axe5(sf::Lines);
         axe5.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
-        axe5.append(sf::Vertex(sf::Vector2f(0.0f, 400 * (std::cos(pi * y_angle / 50))), sf::Color::Black));
+        axe5.append(sf::Vertex(sf::Vector2f(0.0f, 400 * (std::cos(psy))), sf::Color::Black));
 
         sf::VertexArray axe6(sf::Lines);
-        axe6.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
-        axe6.append(sf::Vertex(sf::Vector2f(0.0f, -400 * (std::cos(pi * y_angle / 50))), sf::Color::Black));
+        axe6.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Red));
+        axe6.append(sf::Vertex(sf::Vector2f(0.0f, -400 * (std::cos(psy))), sf::Color::Red));
 
         window.draw(axe1);
         window.draw(axe2);
@@ -292,6 +302,7 @@ int main() {
 
         window.draw(axe5);
         window.draw(axe6);
+
 
         // Display the contents of the window
         window.display();
