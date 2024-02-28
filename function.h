@@ -12,7 +12,6 @@ double one_variable_function(double x, double y, bool complex_type) {
     std::complex<double> function_value = exp(z);
 
     double result;
-
     if (complex_type == true)
         result = function_value.real();
     else
