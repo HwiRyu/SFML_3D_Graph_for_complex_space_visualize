@@ -1,7 +1,3 @@
-//
-// Created by Persist on 2/18/24.
-//
-
 #ifndef INC_3DGRAPH_FUNCTION_H
 #define INC_3DGRAPH_FUNCTION_H
 #include <complex>
@@ -11,8 +7,12 @@ const double pi = 3.14159265358979;
 
 double one_variable_function(double x, double y, bool complex_type) {
     std::complex<double> z(x, y);
-    std::complex<double> function_value = std::exp(z);
+
+    //Write one-varable complex function.
+    std::complex<double> function_value = exp(z);
+
     double result;
+
     if (complex_type == true)
         result = function_value.real();
     else
@@ -25,9 +25,10 @@ void origin_function_one(sf::RenderWindow& window, sf::VertexArray& graph, doubl
     sf::Color transparentRed = sf::Color(0, 0, 255, 100);
     double psy = pi * y_angle / 120;
     double theta = pi * x_angle / 120;
+    double length = 0.1;
 
-    for (double x = start; x <= end; x += 0.2) {
-        for (double y = start; y <= end; y += 0.2) {
+    for (double x = start; x <= end; x += length) {
+        for (double y = start; y <= end; y += length) {
             double z = one_variable_input_function(x, y, complex_type);
 
             // Adjust the transformed coordinates to fit with the axes
@@ -40,8 +41,8 @@ void origin_function_one(sf::RenderWindow& window, sf::VertexArray& graph, doubl
     }
 //    axe1.append(sf::Vertex(sf::Vector2f(400 * std::sin(theta) , -400 * (std::sin(psy)) * (std::cos(theta))), sf::Color::Red));
 
-    for (double y = start; y <= end; y += 0.2) {
-        for (double x = start; x <= end; x += 0.2) {
+    for (double y = start; y <= end; y += length) {
+        for (double x = start; x <= end; x += length) {
             double z = one_variable_input_function(x, y, complex_type);
 
             // Adjust the transformed coordinates to fit with the axes

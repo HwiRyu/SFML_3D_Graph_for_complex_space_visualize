@@ -25,19 +25,7 @@ int main() {
 
     sf::View graphView(sf::FloatRect(-600.0f, -400.0f, 1200.0f, 800.0f));
     window.setView(graphView);
-//
-//    sf::Text stepSizeText("", font, 12);
-//    stepSizeText.setPosition(300, -388);
-//    stepSizeText.setFillColor(sf::Color::Black);
-//
-//    sf::Text initial_point("", font, 12);
-//    initial_point.setPosition(300, -400);
-//    initial_point.setFillColor(sf::Color::Black);
-//
-//    sf::Text tracer_on("", font, 12);
-//    tracer_on.setPosition(300, -364);
-//    tracer_on.setFillColor(sf::Color::Black);
-//
+
 //    sf::Text current_t_value("", font, 12);
 //    current_t_value.setPosition(300, -376);
 //    current_t_value.setFillColor(sf::Color::Black);
@@ -48,11 +36,6 @@ int main() {
     double startX = 0;
     double startY = 0;
     double size = 30;
-    double step = -3.50;
-    double stepSize = 0.03;  // Initialize stepSize
-    bool tracer = false;
-    float xValue;
-    float yValue;
     double t_value = 0;
     double move_UD = 0;
     double move_RL = 0;
@@ -67,16 +50,9 @@ int main() {
     sf::Time lastClickTime = sf::Time::Zero;
     sf::Vector2i lastMousePos; // 마지막 마우스 위치 저장
     sf::Vector2f startPoint; // 초기 클릭 위치 저장
-    sf::Time elapsedTime;
-    bool increaseValue = false;
 
     // Main loop
     while (window.isOpen()) {
-        elapsedTime = clock_t.getElapsedTime();
-        if (increaseValue && elapsedTime.asSeconds() >= 0.001f) {
-            t_value += 0.001f; // 간격을 1초로 변경함
-            clock_t.restart();
-        }
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -98,14 +74,6 @@ int main() {
                     case sf::Keyboard::Right:
                         x_angle -= 1;
                         break;
-                    case sf::Keyboard::W:
-                        if (!tracer)
-                            size += 5;
-                        break;
-                    case sf::Keyboard::S:
-                        if (!tracer)
-                            size -= 5;
-                        break;
                     case sf::Keyboard::I:
                         if (complex_type == true)
                             complex_type = false;
@@ -115,35 +83,14 @@ int main() {
 //                    case sf::Keyboard::T:
 //                        tracer = !tracer;  // Toggle tracer when 'T' is pressed
 //                        break;
-                    case sf::Keyboard::Q:
-                        if (!tracer)
-                            t_value -= 0.01;
-                        break;
-                    case sf::Keyboard::E:
-                        if (!tracer)
-                            t_value += 0.01;
-                        break;
                     case sf::Keyboard::R:
-                        //Initialize
-                        startX = 0;
-                        startY = 0;
-                        size = 30;
-                        step = -3.50;
-                        stepSize = 0.03;  // Initialize stepSize
-                        tracer = false;
-                        xValue = 0;
-                        yValue = 0;
-                        t_value = 0;
-                        increaseValue = true;
                         window.display();
                         window.clear();
-
-                    case sf::Keyboard::F:
-                        if (!tracer)
-                            if (!increaseValue)
-                                increaseValue = true;
-                            else
-                                increaseValue = false;
+                    case sf::Keyboard::W:
+                            size += 5;
+                        break;
+                    case sf::Keyboard::S:
+                            size -= 5;
                         break;
 
 //                    case sf::Keyboard::Up:
@@ -165,14 +112,6 @@ int main() {
                     default:
                         break;
                 }
-                if (step <= 0) {
-                    stepSize = std::exp(step);
-                } else {
-                    stepSize = std::max(step * 1 + 1.0, 1.0);
-                }
-                if (stepSize <= 0.001)
-                    step = -6.90;
-                size = (size < 5) ? 5 : ((size > 150.0) ? 150.0 : size);
 
             }
 
@@ -188,8 +127,6 @@ int main() {
                         startY = y_scale(startPoint.y, 1 / size);
                     }
                     lastClickTime = currentTime;
-//                    if (-10000000 <=origin_function_parameter(window, parameter, size, parameter_function, t_value, x_scale(startPoint.x, 1 / size), y_scale(startPoint.y, 1 / size)))
-//                        t_value = origin_function_parameter(window, parameter, size, parameter_function, t_value, x_scale(startPoint.x, 1 / size), y_scale(startPoint.y, 1 / size));
                 }
             }
 
@@ -204,17 +141,11 @@ int main() {
                     lastMousePos = newMousePos; // 새로운 마우스 위치 저장
 
 //                    stepSizeText.setPosition(graphView.getCenter().x + 300, graphView.getCenter().y - 388);
-//                    initial_point.setPosition(graphView.getCenter().x + 300, graphView.getCenter().y - 400);
-//                    current_t_value.setPosition(graphView.getCenter().x + 300, graphView.getCenter().y - 376);
-//                    tracer_on.setPosition(graphView.getCenter().x + 300, graphView.getCenter().y - 364);
 
                 }
             }
         }
 //        stepSizeText.setString("Step Size: " + std::to_string(stepSize));
-//        initial_point.setString("Initial value: x =" + std::to_string(startX) + ", y =" + std::to_string(startY));
-//        tracer_on.setString("Tracer mode On");
-//        current_t_value.setString("t = "+ std::to_string(t_value));
 
         double x_fmod = graphView.getCenter().x - fmod(graphView.getCenter().x , size);
         double y_fmod =  graphView.getCenter().y - fmod(graphView.getCenter().y, size);
@@ -227,18 +158,8 @@ int main() {
 
 
         window.clear(sf::Color::White);
-//        // Clear the window
-//        if (!tracer){
-//            window.clear(sf::Color::White);
-//            window.draw(stepSizeText);
-//            window.draw(initial_point);
-//            window.draw(current_t_value);
-//        }
-//        else {
-//            window.draw(tracer_on);
-//        }
 
-        origin_function_one(window, origin, size, one_variable_function, -4, 4, x_angle, y_angle, complex_type);
+        origin_function_one(window, origin, size, one_variable_function, -10, 10, x_angle, y_angle, complex_type);
 //
 //        sf::VertexArray axes(sf::Lines);
 //
