@@ -2,6 +2,7 @@ This code is based on rotational transformation and orthogonal projection in lin
 
 ![3D](https://github.com/HwiRyu/SFML_3D_Graph_for_complex_space_visualize/assets/123755711/9743e555-0248-4cc8-bc7c-419746c399fd)
 Axes x,y,z.
+
 z = Re(f(x+yi))
 or
 z = Im(f(x+yi)).
