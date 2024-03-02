@@ -189,13 +189,13 @@ int main() {
         origin_function_one(window, one, size, one_variable_function_complex, current_center_x, current_center_y, x_angle, y_angle, complex_type);
 
         if (real_graph_on == true)
-            origin_function_two(window, two, size, two_variable_real_function, -10, 10, x_angle, y_angle);
+            origin_function_two(window, two, size, two_variable_real_function, current_center_x, current_center_y, x_angle, y_angle);
 
         int length_axes = 30 * size;
 
         sf::VertexArray axe1(sf::Lines);
-        axe1.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Red));
-        axe1.append(sf::Vertex(sf::Vector2f(-length_axes * std::sin(theta) , length_axes * (std::sin(psy)) * (std::cos(theta))), sf::Color::Red));
+        axe1.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Green));
+        axe1.append(sf::Vertex(sf::Vector2f(-length_axes * std::sin(theta) , length_axes * (std::sin(psy)) * (std::cos(theta))), sf::Color::Green));
 
         sf::VertexArray axe2(sf::Lines);
         axe2.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
