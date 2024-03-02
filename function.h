@@ -10,7 +10,7 @@ double one_variable_function_complex(double x, double y, bool complex_type) {
     std::complex<double> a(0, 1);
 
     //Write one-varable complex function.
-    std::complex<double> function_value = (tan(z));
+    std::complex<double> function_value = tan(z);
 
     double result;
     if (complex_type == true)
@@ -22,7 +22,7 @@ double one_variable_function_complex(double x, double y, bool complex_type) {
 }
 
 double two_variable_real_function(double x, double y) {
-    double z = 0;
+    double z = (x -5)*(x-5) + (y-3)*(y-3);
 
     return z;
 }
@@ -39,13 +39,12 @@ void origin_function_one(sf::RenderWindow& window, sf::VertexArray& graph, doubl
     double y_start = view_center_y - 5;
     double y_end = view_center_y + 5;
 
-
     for (double x = x_start; x <= x_end; x += length) {
         for (double y = y_start; y <= y_end; y += length) {
             double z = one_variable_input_function(x, y, complex_type);
 
-            double x_final = -x * std::sin(theta) + y * -std::cos(theta);
-            double y_final = (-x * std::cos(theta) + y * std::sin(theta)) * std::sin(psy) + z * std::cos(psy);
+            double x_final = -x*sin(theta) + y*cos(theta);
+            double y_final = sin(psy) * (-x*cos(theta) - y*sin(theta)) + z*cos(psy);
             graph.append(sf::Vertex(sf::Vector2f(x_scale(x_final, size) , y_scale(y_final, size)), transparentRed));
         }
         window.draw(graph);
@@ -56,8 +55,8 @@ void origin_function_one(sf::RenderWindow& window, sf::VertexArray& graph, doubl
         for (double x = x_start; x <= x_end; x += length) {
             double z = one_variable_input_function(x, y, complex_type);
 
-            double x_final = -x * std::sin(theta) + y * -std::cos(theta);
-            double y_final = (-x * std::cos(theta) + y * std::sin(theta)) * std::sin(psy) + z * std::cos(psy);
+            double x_final = -x*sin(theta) + y*cos(theta);
+            double y_final = sin(psy) * (-x*cos(theta) - y*sin(theta)) + z*cos(psy);
             graph.append(sf::Vertex(sf::Vector2f(x_scale(x_final, size) , y_scale(y_final, size)), transparentRed));
         }
         window.draw(graph);
@@ -69,7 +68,7 @@ void origin_function_two(sf::RenderWindow& window, sf::VertexArray& graph, doubl
     sf::Color color = sf::Color(255, 0, 0, 180);
     double psy = pi * y_angle / 120;
     double theta = pi * x_angle / 120;
-    double length = 0.5;
+    double length = 0.1;
 
     double x_start = view_center_x - 5;
     double x_end = view_center_x + 5;
@@ -81,23 +80,20 @@ void origin_function_two(sf::RenderWindow& window, sf::VertexArray& graph, doubl
         for (double y = y_start; y <= y_end; y += length) {
             double z = two_variable_input_function(x, y);
 
-            // Adjust the transformed coordinates to fit with the axes
-            double x_final = -x * std::sin(theta) + y * -std::cos(theta);
-            double y_final = (-x * std::cos(theta) + y * std::sin(theta)) * std::sin(psy) + z * std::cos(psy);
+            double x_final = -x*sin(theta) + y*cos(theta);
+            double y_final = sin(psy) * (-x*cos(theta) - y*sin(theta)) + z*cos(psy);
             graph.append(sf::Vertex(sf::Vector2f(x_scale(x_final, size) , y_scale(y_final, size)), color));
         }
         window.draw(graph);
         graph.clear();
     }
-//    axe1.append(sf::Vertex(sf::Vector2f(400 * std::sin(theta) , -400 * (std::sin(psy)) * (std::cos(theta))), sf::Color::Red));
 
     for (double y = y_start; y <= y_end; y += length) {
         for (double x = x_start; x <= x_end; x += length) {
             double z = two_variable_input_function(x, y);
 
-            // Adjust the transformed coordinates to fit with the axes
-            double x_final = -x * std::sin(theta) + y * -std::cos(theta);
-            double y_final = (-x * std::cos(theta) + y * std::sin(theta)) * std::sin(psy) + z * std::cos(psy);
+            double x_final = -x*sin(theta) + y*cos(theta);
+            double y_final = sin(psy) * (-x*cos(theta) - y*sin(theta)) + z*cos(psy);
             graph.append(sf::Vertex(sf::Vector2f(x_scale(x_final, size) , y_scale(y_final, size)), color));
         }
         window.draw(graph);

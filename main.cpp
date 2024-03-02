@@ -148,13 +148,6 @@ int main() {
         }
 //        stepSizeText.setString("Step Size: " + std::to_string(stepSize));
 
-        double x_fmod = graphView.getCenter().x - fmod(graphView.getCenter().x , size);
-        double y_fmod =  graphView.getCenter().y - fmod(graphView.getCenter().y, size);
-        double x_start = -500 + fmod(500,size) + x_fmod;
-        double x_end = 600 + fmod(600,size)+ x_fmod;
-        double y_start = -400 + fmod(400,size) + y_fmod;
-        double y_end = 400 + fmod(400,size) + y_fmod;
-
         window.clear(sf::Color::White);
 
         double psy = pi * y_angle / 120;
@@ -179,7 +172,7 @@ int main() {
         double current_center_y;
 
         center_x = -view_center_x * sin(theta) - cos(theta) * view_center_y / sin(psy);
-        center_y = -view_center_x * cos(theta) + sin(theta) * view_center_y / sin(psy);
+        center_y = view_center_x * cos(theta) - sin(theta) * view_center_y / sin(psy);
 
         if (0.01 * pi < psy && psy < 1.99 * pi && domain_fixed == false) {
             current_center_x = center_x;
