@@ -7,10 +7,11 @@ const double pi = 3.14159265358979;
 
 double one_variable_function_complex(double x, double y, bool complex_type) {
     std::complex<double> z(x, y);
-    std::complex<double> c(-1, 3);
+    std::complex<double> a(0, 1);
 
     //Write one-varable complex function.
-    std::complex<double> function_value = z / 3.0;
+    std::complex<double> function_value = (z/(sin(z)))/20.0;
+
     double result;
     if (complex_type == true)
         result = function_value.real();
@@ -21,7 +22,7 @@ double one_variable_function_complex(double x, double y, bool complex_type) {
 }
 
 double two_variable_real_function(double x, double y) {
-    double z = x*y;
+    double z = 3;
 
     return z;
 }
@@ -37,21 +38,18 @@ void origin_function_one(sf::RenderWindow& window, sf::VertexArray& graph, doubl
         for (double y = start; y <= end; y += length) {
             double z = one_variable_input_function(x, y, complex_type);
 
-            // Adjust the transformed coordinates to fit with the axes
             double x_final = x * std::sin(theta) + y * std::cos(theta);
-            double y_final = (x * std::cos(theta) - y * std::sin(theta))* std::sin(psy) + z * std::cos(psy);
+            double y_final = (x * std::cos(theta) - y * std::sin(theta)) * std::sin(psy) + z * std::cos(psy);
             graph.append(sf::Vertex(sf::Vector2f(x_scale(x_final, size) , y_scale(y_final, size)), transparentRed));
         }
         window.draw(graph);
         graph.clear();
     }
-//    axe1.append(sf::Vertex(sf::Vector2f(400 * std::sin(theta) , -400 * (std::sin(psy)) * (std::cos(theta))), sf::Color::Red));
 
     for (double y = start; y <= end; y += length) {
         for (double x = start; x <= end; x += length) {
             double z = one_variable_input_function(x, y, complex_type);
 
-            // Adjust the transformed coordinates to fit with the axes
             double x_final = x * std::sin(theta) + y * std::cos(theta);
             double y_final = z * std::cos(psy) + (x * std::cos(theta) - y * std::sin(theta))* std::sin(psy);
             graph.append(sf::Vertex(sf::Vector2f(x_scale(x_final, size) , y_scale(y_final, size)), transparentRed));
@@ -62,10 +60,10 @@ void origin_function_one(sf::RenderWindow& window, sf::VertexArray& graph, doubl
 }
 
 void origin_function_two(sf::RenderWindow& window, sf::VertexArray& graph, double size, double two_variable_input_function(double, double), double start, double end, double x_angle, double y_angle) {
-    sf::Color color = sf::Color(128, 128, 128, 180);
+    sf::Color color = sf::Color(0, 255, 0, 180);
     double psy = pi * y_angle / 120;
     double theta = pi * x_angle / 120;
-    double length = 0.2;
+    double length = 0.1;
 
     for (double x = start; x <= end; x += length) {
         for (double y = start; y <= end; y += length) {

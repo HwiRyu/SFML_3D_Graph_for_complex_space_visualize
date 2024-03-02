@@ -28,9 +28,8 @@ int main() {
     sf::View graphView(sf::FloatRect(-600.0f, -400.0f, 1200.0f, 800.0f));
     window.setView(graphView);
 
-//    sf::Text current_t_value("", font, 12);
-//    current_t_value.setPosition(300, -376);
-//    current_t_value.setFillColor(sf::Color::Black);
+    sf::Text infor_function("", font, 12);
+    infor_function.setFillColor(sf::Color::Black);
 
     //-----------------------------------------------------------------------------
 
@@ -198,6 +197,13 @@ int main() {
             axe_y_dot.append(sf::Vertex(sf::Vector2f(10, i * std::cos(psy)), sf::Color::Black));
         }
 
+        if (complex_type == true)
+            infor_function.setString("z = Re(f(x+yi))");
+        else
+            infor_function.setString("z = Im(f(x+yi))");
+        infor_function.setPosition(graphView.getCenter().x + 480, graphView.getCenter().y - 390);
+
+
 
         window.draw(axe1);
         window.draw(axe2);
@@ -207,7 +213,7 @@ int main() {
         window.draw(axe6);
         window.draw(axe_x_dot);
         window.draw(axe_y_dot);
-
+        window.draw(infor_function);
         // Display the contents of the window
         window.display();
     }
