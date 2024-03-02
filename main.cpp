@@ -31,6 +31,12 @@ int main() {
     sf::Text infor_function("", font, 12);
     infor_function.setFillColor(sf::Color::Black);
 
+    sf::Text temporary("", font, 12);
+    temporary.setFillColor(sf::Color::Black);
+
+    sf::Text anlges("", font, 12);
+    anlges.setFillColor(sf::Color::Black);
+
     //-----------------------------------------------------------------------------
 
     //Initialize
@@ -45,6 +51,7 @@ int main() {
     const double pi = 3.14159265358979;
     bool complex_type = true;
     bool real_graph_on = false;
+    bool domain_fixed = true;
 
     sf::Clock clock;
     sf::Clock clock_t;
@@ -75,6 +82,12 @@ int main() {
                         break;
                     case sf::Keyboard::Right:
                         x_angle -= 1;
+                        break;
+                    case sf::Keyboard::F:
+                        if (domain_fixed == true)
+                            domain_fixed = false;
+                        else
+                            domain_fixed = true;
                         break;
                     case sf::Keyboard::I:
                         if (complex_type == true)
@@ -110,10 +123,10 @@ int main() {
                     sf::Time currentTime = clock.getElapsedTime();
                     lastMousePos = sf::Mouse::getPosition(window);
                     startPoint = window.mapPixelToCoords(lastMousePos); // 초기 클릭 위치 저장
-                    if (currentTime - lastClickTime < sf::seconds(0.2)) {
-                        startX = x_scale(startPoint.x, 1 / size );
-                        startY = y_scale(startPoint.y, 1 / size);
-                    }
+//                    if (currentTime - lastClickTime < sf::seconds(0.2)) {
+//                        startX = x_scale(startPoint.x, 1 / size );
+//                        startY = y_scale(startPoint.y, 1 / size);
+//                    }
                     lastClickTime = currentTime;
                 }
             }
@@ -142,34 +155,59 @@ int main() {
         double y_start = -400 + fmod(400,size) + y_fmod;
         double y_end = 400 + fmod(400,size) + y_fmod;
 
-
-
-
         window.clear(sf::Color::White);
 
-        origin_function_one(window, one, size, one_variable_function_complex, -10, 10, x_angle, y_angle, complex_type);
+        double psy = pi * y_angle / 120;
+        double theta = pi * (x_angle / 120);
+
+        psy = std::fmod(psy, 2 * pi);
+        theta = std::fmod(theta, 2 * pi);
+
+        if (psy < 0) {
+            psy += 2 * pi;
+        }
+        if (theta < 0) {
+            theta += 2 * pi;
+        }
+
+
+        double view_center_x = graphView.getCenter().x/(size);
+        double view_center_y = -graphView.getCenter().y/(size);
+        double center_x;
+        double center_y;
+        double current_center_x;
+        double current_center_y;
+
+        center_x = -view_center_x * sin(theta) - cos(theta) * view_center_y / sin(psy);
+        center_y = -view_center_x * cos(theta) + sin(theta) * view_center_y / sin(psy);
+
+        if (0.01 * pi < psy && psy < 1.99 * pi && domain_fixed == false) {
+            current_center_x = center_x;
+            current_center_y = center_y;
+        }
+
+        origin_function_one(window, one, size, one_variable_function_complex, current_center_x, current_center_y, x_angle, y_angle, complex_type);
+
         if (real_graph_on == true)
             origin_function_two(window, two, size, two_variable_real_function, -10, 10, x_angle, y_angle);
 
-        double psy = pi * y_angle / 120;
-        double theta = pi * x_angle / 120;
         int length_axes = 30 * size;
 
         sf::VertexArray axe1(sf::Lines);
         axe1.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Red));
-        axe1.append(sf::Vertex(sf::Vector2f(length_axes * std::sin(theta) , -length_axes * (std::sin(psy)) * (std::cos(theta))), sf::Color::Red));
+        axe1.append(sf::Vertex(sf::Vector2f(-length_axes * std::sin(theta) , length_axes * (std::sin(psy)) * (std::cos(theta))), sf::Color::Red));
 
         sf::VertexArray axe2(sf::Lines);
         axe2.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
-        axe2.append(sf::Vertex(sf::Vector2f(length_axes * std::cos(theta) , -length_axes * (std::sin(psy)) * (-std::sin(theta))), sf::Color::Black));
+        axe2.append(sf::Vertex(sf::Vector2f(-length_axes * std::cos(theta) , length_axes * (std::sin(psy)) * (-std::sin(theta))), sf::Color::Black));
 
         sf::VertexArray axe3(sf::Lines);
         axe3.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
-        axe3.append(sf::Vertex(sf::Vector2f(-length_axes * std::sin(theta), length_axes * (std::sin(psy)) * (std::cos(theta))), sf::Color::Black));
+        axe3.append(sf::Vertex(sf::Vector2f(length_axes * std::sin(theta), -length_axes * (std::sin(psy)) * (std::cos(theta))), sf::Color::Black));
 
         sf::VertexArray axe4(sf::Lines);
         axe4.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
-        axe4.append(sf::Vertex(sf::Vector2f(-length_axes * std::cos(theta) , length_axes * (std::sin(psy)) * (-std::sin(theta))), sf::Color::Black));
+        axe4.append(sf::Vertex(sf::Vector2f(length_axes * std::cos(theta) , -length_axes * (std::sin(psy)) * (-std::sin(theta))), sf::Color::Black));
 
         sf::VertexArray axe5(sf::Lines);
         axe5.append(sf::Vertex(sf::Vector2f(0.0f, 0.0f), sf::Color::Black));
@@ -201,7 +239,16 @@ int main() {
             infor_function.setString("z = Re(f(x+yi))");
         else
             infor_function.setString("z = Im(f(x+yi))");
+
+        temporary.setString("domain: x = " + std::to_string(center_x) + ", y = " +std::to_string(center_y));
+        std::string x_str = std::to_string(std::round(std::stod(std::to_string(theta/pi)) * 100) / 100);
+        std::string y_str = std::to_string(std::round(std::stod(std::to_string(psy/pi)) * 100) / 100);
+
+        anlges.setString(x_str + "pi," + y_str + "pi");
+
         infor_function.setPosition(graphView.getCenter().x + 480, graphView.getCenter().y - 390);
+        temporary.setPosition(graphView.getCenter().x + 340, graphView.getCenter().y - 378);
+        anlges.setPosition(graphView.getCenter().x + 450, graphView.getCenter().y - 366);
 
 
 
@@ -214,7 +261,8 @@ int main() {
         window.draw(axe_x_dot);
         window.draw(axe_y_dot);
         window.draw(infor_function);
-        // Display the contents of the window
+        window.draw(temporary);
+        window.draw(anlges);
         window.display();
     }
 

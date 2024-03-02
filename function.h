@@ -10,7 +10,7 @@ double one_variable_function_complex(double x, double y, bool complex_type) {
     std::complex<double> a(0, 1);
 
     //Write one-varable complex function.
-    std::complex<double> function_value = (z/(sin(z)))/20.0;
+    std::complex<double> function_value = tan(z);
 
     double result;
     if (complex_type == true)
@@ -28,30 +28,36 @@ double two_variable_real_function(double x, double y) {
 }
 
 
-void origin_function_one(sf::RenderWindow& window, sf::VertexArray& graph, double size, double one_variable_input_function(double, double, bool), double start, double end, double x_angle, double y_angle, bool complex_type) {
+void origin_function_one(sf::RenderWindow& window, sf::VertexArray& graph, double size, double one_variable_input_function(double, double, bool), double view_center_x, double view_center_y, double x_angle, double y_angle, bool complex_type) {
     sf::Color transparentRed = sf::Color(0, 0, 255, 100);
     double psy = pi * y_angle / 120;
     double theta = pi * x_angle / 120;
     double length = 0.1;
 
-    for (double x = start; x <= end; x += length) {
-        for (double y = start; y <= end; y += length) {
+    double x_start = view_center_x - 5;
+    double x_end = view_center_x + 5;
+    double y_start = view_center_y - 5;
+    double y_end = view_center_y + 5;
+
+
+    for (double x = x_start; x <= x_end; x += length) {
+        for (double y = y_start; y <= y_end; y += length) {
             double z = one_variable_input_function(x, y, complex_type);
 
-            double x_final = x * std::sin(theta) + y * std::cos(theta);
-            double y_final = (x * std::cos(theta) - y * std::sin(theta)) * std::sin(psy) + z * std::cos(psy);
+            double x_final = -x * std::sin(theta) + y * -std::cos(theta);
+            double y_final = (-x * std::cos(theta) + y * std::sin(theta)) * std::sin(psy) + z * std::cos(psy);
             graph.append(sf::Vertex(sf::Vector2f(x_scale(x_final, size) , y_scale(y_final, size)), transparentRed));
         }
         window.draw(graph);
         graph.clear();
     }
 
-    for (double y = start; y <= end; y += length) {
-        for (double x = start; x <= end; x += length) {
+    for (double y = y_start; y <= y_end; y += length) {
+        for (double x = x_start; x <= x_end; x += length) {
             double z = one_variable_input_function(x, y, complex_type);
 
-            double x_final = x * std::sin(theta) + y * std::cos(theta);
-            double y_final = z * std::cos(psy) + (x * std::cos(theta) - y * std::sin(theta))* std::sin(psy);
+            double x_final = -x * std::sin(theta) + y * -std::cos(theta);
+            double y_final = (-x * std::cos(theta) + y * std::sin(theta)) * std::sin(psy) + z * std::cos(psy);
             graph.append(sf::Vertex(sf::Vector2f(x_scale(x_final, size) , y_scale(y_final, size)), transparentRed));
         }
         window.draw(graph);
