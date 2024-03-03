@@ -7,10 +7,12 @@ const double pi = 3.14159265358979;
 
 double one_variable_function_complex(double x, double y, bool complex_type) {
     std::complex<double> z(x, y);
-    std::complex<double> a(0, 1);
+    std::complex<double> a(1, 3);
+    std::complex<double> b(-2, 1);
+    std::complex<double> c(4, 0);
+    std::complex<double> d(0, -1);
 
-    //Write one-varable complex function.
-    std::complex<double> function_value = tan(z);
+    std::complex<double> function_value = tan(a*pow(z,2) + b*pow(z,1) + c*pow(z,0) + d);
 
     double result;
     if (complex_type == true)

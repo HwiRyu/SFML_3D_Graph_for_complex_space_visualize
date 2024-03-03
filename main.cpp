@@ -12,12 +12,10 @@ int main() {
     const int height = 800;
 
     sf::RenderWindow window(sf::VideoMode(width, height), "3D Graph");
-//    sf::VertexArray EulerGraph(sf::LineStrip);
+
+    //일변수 복소함수, 이변수 실함수
     sf::VertexArray one(sf::LineStrip);
     sf::VertexArray two(sf::LineStrip);
-
-//    sf::VertexArray parameter(sf::LineStrip);
-//    sf::VertexArray parameter_point(sf::LineStrip);
 
     sf::Font font;
     if (!font.loadFromFile("/System/Library/Fonts/Monaco.ttf")) {
@@ -30,22 +28,15 @@ int main() {
 
     sf::Text infor_function("", font, 12);
     infor_function.setFillColor(sf::Color::Black);
-
     sf::Text temporary("", font, 12);
     temporary.setFillColor(sf::Color::Black);
-
     sf::Text anlges("", font, 12);
     anlges.setFillColor(sf::Color::Black);
 
     //-----------------------------------------------------------------------------
 
     //Initialize
-    double startX = 0;
-    double startY = 0;
     double size = 30;
-    double t_value = 0;
-    double move_UD = 0;
-    double move_RL = 0;
     double x_angle = 20;
     double y_angle = 5;
     const double pi = 3.14159265358979;
@@ -57,8 +48,8 @@ int main() {
     sf::Clock clock_t;
 
     sf::Time lastClickTime = sf::Time::Zero;
-    sf::Vector2i lastMousePos; // 마지막 마우스 위치 저장
-    sf::Vector2f startPoint; // 초기 클릭 위치 저장
+    sf::Vector2i lastMousePos;
+    sf::Vector2f startPoint;
 
     // Main loop
     while (window.isOpen()) {
@@ -66,7 +57,6 @@ int main() {
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
-
 
             //In euler_method, control step size.
             if (event.type == sf::Event::KeyPressed) {
@@ -95,9 +85,6 @@ int main() {
                         else
                             complex_type = true;
                         break;
-//                    case sf::Keyboard::T:
-//                        tracer = !tracer;  // Toggle tracer when 'T' is pressed
-//                        break;
                     case sf::Keyboard::W:
                             size += 5;
                         break;
@@ -113,7 +100,7 @@ int main() {
                     default:
                         break;
                 }
-                size = (size < 5) ? 5 : ((size > 150.0) ? 150.0 : size);
+                size = (size < 5) ? 5 : ((size > 200.0) ? 200.0 : size);
             }
 
 
@@ -123,15 +110,9 @@ int main() {
                     sf::Time currentTime = clock.getElapsedTime();
                     lastMousePos = sf::Mouse::getPosition(window);
                     startPoint = window.mapPixelToCoords(lastMousePos); // 초기 클릭 위치 저장
-//                    if (currentTime - lastClickTime < sf::seconds(0.2)) {
-//                        startX = x_scale(startPoint.x, 1 / size );
-//                        startY = y_scale(startPoint.y, 1 / size);
-//                    }
                     lastClickTime = currentTime;
                 }
             }
-
-//            size *= std::cos(x_angle);
 
             if (event.type == sf::Event::MouseMoved) {
                 if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -141,21 +122,17 @@ int main() {
                     window.setView(graphView); // 뷰 설정 업데이트
                     lastMousePos = newMousePos; // 새로운 마우스 위치 저장
 
-//                    stepSizeText.setPosition(graphView.getCenter().x + 300, graphView.getCenter().y - 388);
-
                 }
             }
         }
-//        stepSizeText.setString("Step Size: " + std::to_string(stepSize));
 
         window.clear(sf::Color::White);
 
+        //시야각
         double psy = pi * y_angle / 120;
         double theta = pi * (x_angle / 120);
-
         psy = std::fmod(psy, 2 * pi);
         theta = std::fmod(theta, 2 * pi);
-
         if (psy < 0) {
             psy += 2 * pi;
         }
@@ -166,21 +143,17 @@ int main() {
 
         double view_center_x = graphView.getCenter().x/(size);
         double view_center_y = -graphView.getCenter().y/(size);
-        double center_x;
-        double center_y;
+        double center_x = -view_center_x * sin(theta) - cos(theta) * view_center_y / sin(psy);
+        double center_y = view_center_x * cos(theta) - sin(theta) * view_center_y / sin(psy);
         double current_center_x;
         double current_center_y;
-
-        center_x = -view_center_x * sin(theta) - cos(theta) * view_center_y / sin(psy);
-        center_y = view_center_x * cos(theta) - sin(theta) * view_center_y / sin(psy);
 
         if (0.01 * pi < psy && psy < 1.99 * pi && domain_fixed == false) {
             current_center_x = center_x;
             current_center_y = center_y;
         }
-
+//Graph Show
         origin_function_one(window, one, size, one_variable_function_complex, current_center_x, current_center_y, x_angle, y_angle, complex_type);
-
         if (real_graph_on == true)
             origin_function_two(window, two, size, two_variable_real_function, current_center_x, current_center_y, x_angle, y_angle);
 
