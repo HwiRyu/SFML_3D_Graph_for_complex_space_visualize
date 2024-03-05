@@ -5,6 +5,8 @@
 #include <sstream>
 #include "scale.h"
 #include "function.h"
+#include "complex_function.h"
+#include "parameter_function.h"
 
 int main() {
     // Window initial setting-------------------------------------------------------
@@ -16,6 +18,8 @@ int main() {
     //일변수 복소함수, 이변수 실함수
     sf::VertexArray one(sf::LineStrip);
     sf::VertexArray two(sf::LineStrip);
+    sf::VertexArray three(sf::LineStrip);
+
 
     sf::Font font;
     if (!font.loadFromFile("/System/Library/Fonts/Monaco.ttf")) {
@@ -41,8 +45,10 @@ int main() {
     double y_angle = 5;
     const double pi = 3.14159265358979;
     bool complex_type = true;
+    bool complex_graph_on = true;
     bool real_graph_on = false;
     bool domain_fixed = true;
+    int complex_swich = 0;
 
     sf::Clock clock;
     sf::Clock clock_t;
@@ -74,16 +80,13 @@ int main() {
                         x_angle -= 1;
                         break;
                     case sf::Keyboard::F:
-                        if (domain_fixed == true)
+                        if (domain_fixed)
                             domain_fixed = false;
                         else
                             domain_fixed = true;
                         break;
                     case sf::Keyboard::I:
-                        if (complex_type == true)
-                            complex_type = false;
-                        else
-                            complex_type = true;
+                        complex_swich += 1;
                         break;
                     case sf::Keyboard::W:
                             size += 5;
@@ -92,10 +95,13 @@ int main() {
                             size -= 5;
                         break;
                     case sf::Keyboard::O:
-                        if (real_graph_on == true)
+                        if (real_graph_on)
                             real_graph_on = false;
                         else
                             real_graph_on = true;
+
+
+
                         break;
                     default:
                         break;
@@ -126,7 +132,27 @@ int main() {
             }
         }
 
-        window.clear(sf::Color::White);
+        if (complex_swich > 2) {
+            complex_swich = 0;
+        }
+
+        switch(complex_swich) {
+            case 0:
+                complex_graph_on = true;
+                complex_type = true;
+                break;
+            case 1:
+                complex_graph_on = true;
+                complex_type = false;
+                break;
+            case 2:
+                complex_graph_on = false;
+                break;
+        }
+
+
+
+            window.clear(sf::Color::White);
 
         //시야각
         double psy = pi * y_angle / 120;
@@ -148,14 +174,16 @@ int main() {
         double current_center_x;
         double current_center_y;
 
-        if (0.01 * pi < psy && psy < 1.99 * pi && domain_fixed == false) {
+        if (0.01 * pi < psy && psy < 1.99 * pi && !domain_fixed) {
             current_center_x = center_x;
             current_center_y = center_y;
         }
 //Graph Show
-        origin_function_one(window, one, size, one_variable_function_complex, current_center_x, current_center_y, x_angle, y_angle, complex_type);
-        if (real_graph_on == true)
+        if (complex_graph_on)
+            origin_function_one(window, one, size, one_variable_function_complex, current_center_x, current_center_y, x_angle, y_angle, complex_type);
+        if (real_graph_on)
             origin_function_two(window, two, size, two_variable_real_function, current_center_x, current_center_y, x_angle, y_angle);
+        parameter_function_graph(window, three, size, parameter_function, x_angle, y_angle);
 
         int length_axes = 30 * size;
 
@@ -201,11 +229,12 @@ int main() {
             axe_y_dot.append(sf::Vertex(sf::Vector2f(10, i * std::cos(psy)), sf::Color::Black));
         }
 
-        if (complex_type == true)
+        if (complex_type)
             infor_function.setString("z = Re(f(x+yi))");
         else
             infor_function.setString("z = Im(f(x+yi))");
-
+        if (!complex_graph_on)
+            infor_function.setString("None");
         temporary.setString("domain: x = " + std::to_string(center_x) + ", y = " +std::to_string(center_y));
         std::string x_str = std::to_string(std::round(std::stod(std::to_string(theta/pi)) * 100) / 100);
         std::string y_str = std::to_string(std::round(std::stod(std::to_string(psy/pi)) * 100) / 100);

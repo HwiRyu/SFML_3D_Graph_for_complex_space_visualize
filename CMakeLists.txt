@@ -5,7 +5,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES main.cpp
         scale.h
-        function.h)
+        function.h
+        complex_function.h
+        parameter_function.h
+)
 add_executable(3Dgraph ${SOURCE_FILES})
 include_directories(/usr/local/include)
 
