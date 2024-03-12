@@ -6,7 +6,7 @@
 const double pi = 3.14159265358979;
 
 double two_variable_real_function(double x, double y) {
-    double z = (x - 5) * (x - 5) + (y - 3) * (y - 3);
+    double z = x;
     return z;
 }
 
@@ -16,7 +16,7 @@ void origin_function_two(sf::RenderWindow &window, sf::VertexArray &graph, doubl
     sf::Color color = sf::Color(255, 0, 0, 180);
     double phi = pi * y_angle / 120;
     double theta = pi * x_angle / 120;
-    double length = 0.1;
+    double length = 0.5;
 
     double x_start = view_center_x - 5;
     double x_end = view_center_x + 5;

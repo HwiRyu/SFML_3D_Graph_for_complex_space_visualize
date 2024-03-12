@@ -11,13 +11,22 @@ struct Point {
 
 
 //Input parameter function, like x = f(t), y = g(t).
-Point parameter_function(double t) {
+Point parameter_function1(double t) {
     Point output;
-    output.x = cos(t);
-    output.y = sin(t);
-    output.z = t/10;
+    output.x = t+6*t;
+    output.y =t+14*t;
+    output.z = t*t*t;
     return output;
 }
+
+Point parameter_function2(double t) {
+    Point output;
+    output.x = t;
+    output.y = t*t;
+    output.z = t*t*t;
+    return output;
+}
+
 
 
 void parameter_function_graph(sf::RenderWindow &window, sf::VertexArray &graph,

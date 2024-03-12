@@ -11,7 +11,7 @@ double one_variable_function_complex(double x, double y, bool complex_type) {
     std::complex<double> z(x, y);
     std::complex<double> a(0, 1);
 
-    std::complex<double> function_value = exp(z);
+    std::complex<double> function_value = exp(-1.0/z);
 
     double result;
     if (complex_type == true)
